@@ -50,7 +50,12 @@ def login(client, username):
 	password = input()
 	client.send(f'COMMAND PASSWORD\n{password}'.encode())
 	response = os.read(command_read, 1024).decode()
-	return response == 'COMMAND OK\n'
+	if response[:10] != 'COMMAND OK':
+		print('Error logging in')
+		if response[:13] == 'COMMAND ERROR':
+			print(response[14:])
+		return False
+	return True
 
 # exit
 def exit(client, sel):
