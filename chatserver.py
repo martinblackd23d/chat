@@ -160,10 +160,14 @@ def handle_client(client):
 
 def main():
 	# load authentication
-	with open('users.txt', 'r') as file:
-		for line in file:
-			username, password = line.strip().split(':')
-			authentication[username] = password
+	try:
+		with open('users.txt', 'r') as file:
+			for line in file:
+				username, password = line.strip().split(':')
+				authentication[username] = password
+	except FileNotFoundError:
+		with open('users.txt', 'w') as file:
+			pass
 
 	# get port
 	if len(sys.argv) != 2:
